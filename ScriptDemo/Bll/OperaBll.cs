@@ -4,9 +4,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using log4net;
-using ScriptPlugin.Common;
+using ScriptDemo.Models;
 using ScriptPlugin.Common.Enums;
 using ScriptPlugin.LwSoft;
 using ScriptPlugin.LwSoft.Enums;
@@ -19,20 +18,40 @@ namespace ScriptDemo.Bll
         #region 字段
 
         public readonly Lwsoft3 Lw;
-        //主窗口句柄
         public int Hwnd;
         private string _logs;
         private string _name;
         private readonly ILog _log = LogManager.GetLogger(typeof(OperaBll));
+        private bool _threadRun;
+        private bool _bindinged;
 
         #endregion
 
         #region 属性
 
         //绑定状态
-        public bool Bindinged { get; set; }
+        public bool Bindinged
+        {
+            get => _bindinged;
+            set
+            {
+                if (value.Equals(_bindinged)) return;
+                _bindinged = value;
+                OnPropertyChanged();
+            }
+        }
+
         //线程启动
-        public bool ThreadRun { get; set; }
+        public bool ThreadRun
+        {
+            get => _threadRun;
+            set
+            {
+                if (value == _threadRun) return;
+                _threadRun = value;
+                OnPropertyChanged();
+            }
+        }
 
         //日志
         public string Logs
@@ -46,7 +65,7 @@ namespace ScriptDemo.Bll
             }
         }
 
-        //模拟器名字
+        //窗体名字
         public string Name
         {
             get => _name + $"({Hwnd})";
@@ -58,6 +77,7 @@ namespace ScriptDemo.Bll
             }
         }
 
+        //运行状态
         public RunState RunState { get; private set; } = RunState.Idle;
 
         #endregion
@@ -69,14 +89,20 @@ namespace ScriptDemo.Bll
             Lw = lw;
         }
 
+        public OperaBll(Lwsoft3 lw, int hwnd) : this(lw)
+        {
+            Hwnd = hwnd;
+        }
+
         #endregion
+
+        #region 方法
 
         #region 初始化
 
         public void Load()
         {
             LoadWindowsHandle(Hwnd);
-            Bindinged = true;
         }
 
         /// <summary>
@@ -85,20 +111,24 @@ namespace ScriptDemo.Bll
         private void LoadWindowsHandle(int hwnd)
         {
             var path = Path.Combine(Environment.CurrentDirectory, "imgs");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+            //设置全局目录
             Lw.SetPath(path);
+
             SetWindowsHandle(hwnd);
-            _log.Info("初始化窗体成功");
             Log("初始化窗体成功");
+
             if (Lw.IsBind(hwnd) == 0)
             {
-                //绑定
-                Lw.BindWindow(this.Hwnd, LwDisplayBind.Gdi, LwMouseBind.Windows, LwKeypadBind.Windows, 32);
-                Lw.SetWindowState(this.Hwnd, 1);
-                Log("绑定成功");
+                //绑定窗体
+                if (Lw.BindWindow(hwnd, LwDisplayBind.Normal, LwMouseBind.Windows, LwKeypadBind.Windows, 0, 0) == 1)
+                {
+                    Bindinged = true;
+                    //激活窗体
+                    Lw.SetWindowState(hwnd, 1);
+                    Log("绑定成功");
+                }
             }
 #if DEBUG
             //关闭错误消息
@@ -106,15 +136,13 @@ namespace ScriptDemo.Bll
 #endif
         }
 
-        public void SetWindowsHandle(int parent)
+        private void SetWindowsHandle(int parent)
         {
             Hwnd = parent;
             Name = Lw.GetWindowTitle(Hwnd);
         }
 
         #endregion
-
-        #region 方法
 
         #region 移动方法
         /// <summary>
@@ -163,35 +191,55 @@ namespace ScriptDemo.Bll
         public void UnBindWindow()
         {
             Lw.UnBindWindow();
-            _log.Info("解除绑定");
             Log("解除绑定");
         }
 
+        //忙碌状态时等待
         private async Task WaitBusy()
         {
-            while (this.RunState == RunState.Busy)
+            while (RunState == RunState.Busy)
             {
                 //超过窗口数，等待处理
                 await Task.Delay(200);
             }
         }
 
+        //日志
         private void Log(string log)
         {
             _log.Info(log);
 
             Logs += $"{DateTime.Now:HH:mm:ss}: {log}\r\n";
             var lines = Logs.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            if (lines.Length > 10)
+            const int showLine = 10;
+            if (lines.Length > showLine)
             {
                 StringBuilder strb = new StringBuilder();
-                for (int i = lines.Length - 10; i < lines.Length; i++)
+                for (int i = lines.Length - showLine; i < lines.Length; i++)
                 {
                     strb.Append(lines[i]);
                 }
                 Logs = strb.ToString();
             }
         }
+
+        #region 线程
+
+        //开始任务
+        public void StartTask()
+        {
+            ThreadRun = true;
+            Task.Run(() =>
+            {
+                while (ThreadRun)
+                {
+                    //todo...
+                    Task.Delay(100).Wait();
+                }
+            });
+        }
+
+        #endregion
 
         #endregion
 

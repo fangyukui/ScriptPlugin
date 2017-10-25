@@ -3,10 +3,8 @@
     public enum MsgType
     {
         Log,
-        Url,
         Login,
         Logout,
-        Heartbeat,
-        WxCount
+        Heartbeat
     }
 }

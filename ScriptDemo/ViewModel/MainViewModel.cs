@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using log4net;
 using ScriptDemo.Bll;
+using ScriptPlugin.Common.Api;
 using ScriptPlugin.Common.Enums;
 using ScriptPlugin.Common.Helper;
 using ScriptPlugin.LwSoft;
@@ -21,7 +22,7 @@ namespace ScriptDemo.ViewModel
 
         public static MainViewModel Instance { get; } = new MainViewModel();
         private readonly ILog _log = LogManager.GetLogger(typeof(MainViewModel));
-        private bool _isExit;
+        private WindowTaskBll _windowTask;
         private ObservableCollection<OperaBll> _operas;
         private int _maxThreadCount;
         private RunState _taskState;
@@ -30,6 +31,7 @@ namespace ScriptDemo.ViewModel
 
         #region 属性
 
+        //控制业务
         public ObservableCollection<OperaBll> Operas
         {
             get => _operas;
@@ -75,7 +77,8 @@ namespace ScriptDemo.ViewModel
             if (!InitData()) return;
             //环境监测
             if (!CheckEnvironment()) return;
-            //todo...
+            //开启监测线程
+            //_windowTask.StartCheckByOneThread();
         }
 
         #endregion
@@ -87,8 +90,7 @@ namespace ScriptDemo.ViewModel
         /// </summary>
         public RelayCommand ClosedCommand => new RelayCommand(() =>
         {
-            _isExit = true;
-           
+            _windowTask?.Dispose();
             LwFactory.Clear();
         });
 
@@ -99,6 +101,11 @@ namespace ScriptDemo.ViewModel
         //配置文件加载
         private bool InitData()
         {
+            //初始化参数
+            Operas = new ObservableCollection<OperaBll> {new OperaBll(LwFactory.Default)};
+            _windowTask = new WindowTaskBll(Operas[0]);
+
+            //初始化配置文件
             try
             {
                 MaxThreadCount = AppConfig.GetValue("MaxThreadCount", 20);
@@ -117,79 +124,30 @@ namespace ScriptDemo.ViewModel
         {
             try
             {
-                var lw = LwFactory.Default;
-                var width = lw.GetScreenWidth();
-                var height = lw.GetScreenHeight();
+                var area = PrimaryScreen.WorkingArea;
+                var width = (int)area.Width;
+                var height = (int)area.Height;
+                var scaleX = PrimaryScreen.ScaleX;
+                var scaleY = PrimaryScreen.ScaleY;
+                if (Math.Abs(scaleX - 1) > 0 || Math.Abs(scaleY - 1) > 0)
+                {
+                    MessageBox.Show("当前缩放设置不正确，请设置为100%", "环境错误");
+                    return false;
+                }
                 if (width != 1920 && height != 1080)
                 {
-                    MessageBox.Show($"只支持1920*1080分辨率，当前分辨率({width}*{height})不正确", "错误");
+                    MessageBox.Show($"只支持1920*1080分辨率，当前分辨率({width}*{height})不正确", "环境错误");
+                    return false;
                 }
                 return true;
             }
             catch (Exception e)
             {
                 _log.Error(e);
-                MessageBox.Show(e.Message, "错误");
+                MessageBox.Show(e.Message, "环境错误");
                 return false;
             }
         }
-
-        private int[] EnumTargetWindow()
-        {
-            var hwndstr = LwFactory.Default.EnumWindow(null, "WeChatMainWndForPC", null);
-            var hwnds = hwndstr?.Split(',');
-            if (hwnds?.Length > 0)
-            {
-                var ints = new int[hwnds.Length];
-                for (var i = 0; i < hwnds.Length; i++)
-                    ints[i] = int.Parse(hwnds[i]);
-                return ints;
-            }
-            return new int[0];
-        }
-        private int GetTargetWindow()
-        {
-            var hwnd = LwFactory.Default.FindWindow(null, "360se6_Frame", null);
-            return hwnd;
-        }
-
-        #region 线程
-
-        //实时监测窗体线程
-        private void StartCheckTargetThread()
-        {
-            Task.Run(() =>
-            {
-                while (!_isExit)
-                {
-                    var hwnd = GetTargetWindow();
-                    if (hwnd > 0)
-                    {
-                        OperaBll opear = Operas.First();
-                        opear.Hwnd = hwnd;
-                        opear.Load();
-                        //opear.StartTaskThread();
-
-                        while (!_isExit)
-                        {
-                            //窗体不存在
-                            if (String.IsNullOrEmpty(LwFactory.Default.GetWindowClass(hwnd)))
-                            {
-                                Operas.First().ThreadRun = false;
-                                Task.Delay(1000).Wait();
-                                Operas.First().UnBindWindow();
-                                StartCheckTargetThread();
-                                return;
-                            }
-                            Task.Delay(1000).Wait();
-                        }
-                    }
-                    Task.Delay(1000).Wait();
-                }
-            });
-        }
-
-        #endregion
 
         #endregion
 

@@ -1,7 +1,7 @@
 ﻿
 using System.Windows;
 
-namespace ScriptPlugin.Common
+namespace ScriptDemo.Models
 {
     public class OpearPoints
     {

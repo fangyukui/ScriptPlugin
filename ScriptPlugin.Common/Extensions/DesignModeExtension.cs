@@ -1,16 +1,16 @@
-﻿using System.Windows.Controls;
-using ScriptPlugin.Theme.Control;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace ScriptPlugin.Common.Extensions
 {
-    public static class WpfExtension
+    public static class DesignModeExtension
     {
-        public static bool IsInDesignMode(this Control control)
+        public static bool IsDesignMode(this Control control)
         {
             return System.ComponentModel.DesignerProperties.GetIsInDesignMode(control);
         }
 
-        public static bool IsInDesignMode(this WindowBase control)
+        public static bool IsDesignMode(this Window control)
         {
             return System.ComponentModel.DesignerProperties.GetIsInDesignMode(control);
         }

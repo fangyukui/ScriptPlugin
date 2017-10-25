@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace ScriptPlugin.Common.Controls
 {
-    public class ScrollViewerExtensions
+    public class ScrollViewerExtension
     {
-        public static readonly DependencyProperty AlwaysScrollToEndProperty = DependencyProperty.RegisterAttached("AlwaysScrollToEnd", typeof(bool), typeof(ScrollViewerExtensions), new PropertyMetadata(false, AlwaysScrollToEndChanged));
+        public static readonly DependencyProperty AlwaysScrollToEndProperty = DependencyProperty.RegisterAttached("AlwaysScrollToEnd", typeof(bool), typeof(ScrollViewerExtension), new PropertyMetadata(false, AlwaysScrollToEndChanged));
         private static bool _autoScroll;
 
 
@@ -20,22 +20,11 @@ namespace ScriptPlugin.Common.Controls
                 {
                     scroll.ScrollToEnd();
                     scroll.ScrollChanged += ScrollChanged;
-                    // scroll.SizeChanged += Scroll_SizeChanged;
                 }
-                else { scroll.ScrollChanged -= ScrollChanged; /*scroll.ScrollChanged -= ScrollChanged; */}
+                else { scroll.ScrollChanged -= ScrollChanged;}
             }
             else { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
         }
-
-
-        //private static void Scroll_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    ScrollViewer scroll = sender as ScrollViewer;
-        //    if (scroll == null) { throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances."); }
-        //    double d = scroll.ActualHeight + scroll.ViewportHeight + scroll.ExtentHeight;
-        //    scroll.ScrollToVerticalOffset(d);
-        //}
-
 
         public static bool GetAlwaysScrollToEnd(ScrollViewer scroll)
         {

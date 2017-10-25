@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Management;
 
-namespace ScriptPlugin.Common.Helper
+namespace ScriptPlugin.Common.Api
 {
     public class Computer
     {

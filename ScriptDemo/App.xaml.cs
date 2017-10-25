@@ -6,7 +6,7 @@ using System.Security.Principal;
 using System.Windows;
 using log4net;
 using log4net.Config;
-using ScriptPlugin.Common.Helper;
+using ScriptPlugin.Common.Api;
 
 namespace ScriptDemo
 {

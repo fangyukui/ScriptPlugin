@@ -60,12 +60,12 @@ namespace ScriptPlugin.LwSoft
             lw.SetWindowSize(hwnd, (int)size.Width, (int)size.Height);
         }
 
-        public static bool FindPic(this Lwsoft3 lw, Rect rect, string pic_name,
-            string delta_color = "000000", double sim = 0.95, int dir = 0, int timeout = 0, int ischick = 0,
+        public static bool FindPic(this Lwsoft3 lw, Rect rect, string picName,
+            string deltaColor = "000000", double sim = 0.95, int dir = 0, int timeout = 0, int ischick = 0,
             int chickdex = 0, int chickdey = 0, int chickdely = 0)
         {
             return lw.FindPic((int)rect.Left, (int)rect.Top, (int)rect.Right, (int)rect.Bottom,
-                pic_name, delta_color, sim, dir, timeout, ischick, chickdex, chickdey, chickdely);
+                picName, deltaColor, sim, dir, timeout, ischick, chickdex, chickdey, chickdely);
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ScriptPlugin.Common.Helper
+namespace ScriptPlugin.Common.Api
 {
     /// <summary>
     /// 系统休眠

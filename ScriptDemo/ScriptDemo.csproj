@@ -68,7 +68,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bll\WindowHwndBll.cs" />
     <Compile Include="Bll\OperaBll.cs" />
+    <Compile Include="Bll\WindowTaskBll.cs" />
+    <Compile Include="Models\OpearPoints.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
