@@ -1,0 +1,12 @@
+F:\LwPlugin\LwPlugin.LwSoft\bin\Debug\ScriptPlugin.LwSoft.dll
+F:\LwPlugin\LwPlugin.LwSoft\bin\Debug\ScriptPlugin.LwSoft.pdb
+F:\LwPlugin\LwPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.csprojResolveAssemblyReference.cache
+F:\LwPlugin\LwPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.csproj.CoreCompileInputs.cache
+F:\LwPlugin\LwPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.dll
+F:\LwPlugin\LwPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.pdb
+F:\ScriptPlugin\ScriptPlugin.LwSoft\bin\Debug\ScriptPlugin.LwSoft.dll
+F:\ScriptPlugin\ScriptPlugin.LwSoft\bin\Debug\ScriptPlugin.LwSoft.pdb
+F:\ScriptPlugin\ScriptPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.csproj.CoreCompileInputs.cache
+F:\ScriptPlugin\ScriptPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.dll
+F:\ScriptPlugin\ScriptPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.pdb
+F:\ScriptPlugin\ScriptPlugin.LwSoft\obj\Debug\ScriptPlugin.LwSoft.csprojResolveAssemblyReference.cache
