@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\PrimaryScreen.cs" />
+    <Compile Include="Controls\ModernProgressRing.cs" />
     <Compile Include="Extensions\DesignModeExtension.cs" />
     <Compile Include="Controls\ScrollViewerExtension.cs" />
     <Compile Include="Converters\EnumToDescConverter.cs" />
@@ -76,6 +77,12 @@
       <Project>{343F577E-6388-442C-B725-2EA6893AB221}</Project>
       <Name>ScriptPlugin.Theme</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Styles\ModernProgressRing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

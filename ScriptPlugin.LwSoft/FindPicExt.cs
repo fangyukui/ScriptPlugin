@@ -129,13 +129,13 @@ namespace ScriptPlugin.LwSoft
         }
 
         /// <summary>
-        /// 设置超时，在这个时间段会不断的识别
+        /// 设置持久超时，默认不调用此函数只识图一次，在这个时间段会不断的识别
         /// </summary>
-        /// <param name="millisecond">超时时间(毫秒)</param>
+        /// <param name="millisecond">持续时间(毫秒)</param>
         /// <param name="interval">找图间隔时间</param>
-        /// <param name="timeoutAction"></param>
+        /// <param name="timeoutAction">超时动作</param>
         /// <returns></returns>
-        public FindPicExt SetTimeout(int millisecond, int interval = 100, Action timeoutAction = null)
+        public FindPicExt SetDurable(int millisecond, int interval = 100, Action timeoutAction = null)
         {
             _millisecond = millisecond;
             _interval = interval;

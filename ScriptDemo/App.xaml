@@ -1,7 +1,6 @@
 ﻿<Application x:Class="ScriptDemo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ScriptDemo"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -11,6 +10,7 @@
                 <ResourceDictionary Source="pack://application:,,,/ScriptPlugin.Theme;component/Style/Themes/FIcon.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ScriptPlugin.Theme;component/Control/FButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ScriptPlugin.Theme;component/Style/Style.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ScriptPlugin.Common;component/Styles/ModernProgressRing.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource DefaultScrollBar}"></Style>
             <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource DefaultScrollViewer}"></Style>

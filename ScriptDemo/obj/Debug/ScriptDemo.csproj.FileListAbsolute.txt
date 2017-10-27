@@ -39,7 +39,6 @@ F:\ScriptPlugin\ScriptDemo\obj\Debug\MainWindow.baml
 F:\ScriptPlugin\ScriptDemo\obj\Debug\MainWindow.g.cs
 F:\ScriptPlugin\ScriptDemo\obj\Debug\App.g.cs
 F:\ScriptPlugin\ScriptDemo\obj\Debug\ScriptDemo_MarkupCompile.cache
-F:\ScriptPlugin\ScriptDemo\obj\Debug\ScriptDemo_MarkupCompile.lref
 F:\ScriptPlugin\ScriptDemo\obj\Debug\App.baml
 F:\ScriptPlugin\ScriptDemo\obj\Debug\ScriptDemo.g.resources
 F:\ScriptPlugin\ScriptDemo\obj\Debug\ScriptDemo.Properties.Resources.resources

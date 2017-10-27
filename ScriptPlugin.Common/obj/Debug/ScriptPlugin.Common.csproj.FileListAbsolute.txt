@@ -20,3 +20,8 @@ F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common.csprojResolveA
 F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common.csproj.CoreCompileInputs.cache
 F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common.dll
 F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common.pdb
+F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common_MarkupCompile.cache
+F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common_MarkupCompile.lref
+F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\Styles\ModernProgressRing.baml
+F:\ScriptPlugin\ScriptPlugin.Common\obj\Debug\ScriptPlugin.Common.g.resources
