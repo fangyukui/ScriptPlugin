@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ScriptPlugin.LwSoft
+namespace LwPlugin.LwSoft
 {
     /// <summary>
     /// 找图封装
@@ -84,6 +84,13 @@ namespace ScriptPlugin.LwSoft
             return this;
         }
 
+        public FindPicExt ResetIgnoreRect(string bmp, double sim = 0.8)
+        {
+            ResetIgnoreRect();
+            SetImgPath(bmp, sim);
+            return this;
+        }
+
         /// <summary>
         /// 设置识别区域
         /// </summary>
@@ -95,14 +102,25 @@ namespace ScriptPlugin.LwSoft
             return this;
         }
 
+        public FindPicExt SetRect(Rect rect, string bmp, double sim = 0.8)
+        {
+            SetRect(rect);
+            SetImgPath(bmp, sim);
+            return this;
+        }
+
         /// <summary>
         /// 设置图片路径
         /// </summary>
         /// <param name="bmp">多张图片用|隔开</param>
+        /// <param name="sim"></param>
+        /// <param name="deltaColor"></param>
         /// <returns></returns>
-        public FindPicExt SetImgPath(string bmp)
+        public FindPicExt SetImgPath(string bmp, double sim = 0.8, string deltaColor = "000000")
         {
             _bmp = bmp;
+            SetSim(sim);
+            SetDeltaColor(deltaColor);
             return this;
         }
 
@@ -166,20 +184,16 @@ namespace ScriptPlugin.LwSoft
         /// 开始识图
         /// </summary>
         /// <returns></returns>
-        public bool Start()
+        public bool Start(bool reverse = false)
         {
             if (_rect.IsEmpty) throw new Exception("请设置识图区域 SetRect()");
             if (String.IsNullOrEmpty(_bmp)) throw new Exception("请设置识别的图片路径 SetImgPath()");
             if (_isTimeout)
             {
                 var date = DateTime.Now;
-                while ((DateTime.Now - date).TotalSeconds < _millisecond)
+                while ((DateTime.Now - date).TotalMilliseconds < _millisecond)
                 {
-                    if (_lw.FindPic(_rect, _bmp, _deltaColor, _sim))
-                    {
-                        AfterClick();
-                        return true;
-                    }
+                    if (FindPic(reverse)) return true;
                     Task.Delay(_interval).Wait();
                 }
                 Console.WriteLine("FindPic超时");
@@ -187,7 +201,24 @@ namespace ScriptPlugin.LwSoft
             }
             else
             {
+                if (FindPic(reverse)) return true;
+            }
+            return false;
+        }
+
+        private bool FindPic(bool reverse = false)
+        {
+            if (!reverse)
+            {
                 if (_lw.FindPic(_rect, _bmp, _deltaColor, _sim))
+                {
+                    AfterClick();
+                    return true;
+                }
+            }
+            else
+            {
+                if (!_lw.FindPic(_rect, _bmp, _deltaColor, _sim))
                 {
                     AfterClick();
                     return true;
